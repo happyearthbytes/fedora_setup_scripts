@@ -1,5 +1,5 @@
 vim
-google-chrome
+google-chrome-stable
 git
 steam
 openrgb
