@@ -1,3 +1,4 @@
 vim
 google-chrome
 git
+steam
