@@ -26,7 +26,7 @@ if [[ $(should_install code) == "True" ]]; then
     dnf check-update
 fi
 if [[ $(should_install k3s-selinux) == "True" ]]; then
-    curl -sfL https://get.k3s.io | sh -
+    curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true sh -
 fi
 if [[ $(should_install rpmfusion-free-release) == "True" ]]; then
     sudo dnf -y install \
