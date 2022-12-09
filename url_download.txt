@@ -1,1 +1,2 @@
-https://gitlab.com/OpenRGBDevelopers/OpenRGBEffectsPlugin/-/jobs/artifacts/master/download?job=Linux+64
+https://openrgb.org/releases/plugins/effects/release_0.8/OpenRGBEffectsPlugin_0.8_Linux_64_a82937c.so
+https://openrgb.org/releases/plugins/visualmap/release_0.8/OpenRGBVisualMapPlugin_0.8_Linux_64_7ce4745.so
