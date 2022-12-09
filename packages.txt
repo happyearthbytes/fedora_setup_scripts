@@ -2,5 +2,5 @@ vim
 google-chrome
 git
 steam
-openrgb-0.7
+openrgb
 i2c-tools
