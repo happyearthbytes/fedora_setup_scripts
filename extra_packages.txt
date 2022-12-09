@@ -1,1 +1,2 @@
-git
+obs-studio
+code

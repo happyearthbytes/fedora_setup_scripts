@@ -24,8 +24,11 @@ if [[ $(should_install code) == "True" ]]; then
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
     dnf check-update
-    sudo dnf -y install code
 fi
 if [[ $(should_install k3s-selinux) == "True" ]]; then
     curl -sfL https://get.k3s.io | sh -
+fi
+if [[ $(should_install rpmfusion-free-release) == "True" ]]; then
+    sudo dnf -y install \
+        https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 fi
