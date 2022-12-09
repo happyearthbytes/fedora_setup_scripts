@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-sudo k3s server --config config.yaml
+cp config.yaml /etc/rancher/k3s/config.yaml
+sudo k3s server
 
 #    --write-kubeconfig value, -o value         (client) Write kubeconfig for admin client to this file [$K3S_KUBECONFIG_OUTPUT]
 #    --kube-apiserver-arg value                 (flags) Customized flag for kube-apiserver process
