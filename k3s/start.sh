@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-cp config.yaml /etc/rancher/k3s/config.yaml
+sudo mkdir -p /etc/rancher/k3s/
+sudo chmod -R 777 /etc/rancher
+cp config.yaml /etc/rancher/k3s/
 sudo k3s server
 
 #    --write-kubeconfig value, -o value         (client) Write kubeconfig for admin client to this file [$K3S_KUBECONFIG_OUTPUT]
