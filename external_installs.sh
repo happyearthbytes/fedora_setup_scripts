@@ -26,7 +26,10 @@ if [[ $(should_install code) == "True" ]]; then
     dnf check-update
 fi
 if [[ $(should_install k3s-selinux) == "True" ]]; then
-    curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true sh -
+    sudo mkdir -p /etc/rancher/k3s/
+    sudo chmod -R 777 /etc/rancher
+    cp k3s/config.yaml /etc/rancher/k3s/
+    curl -sfL https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true sh -s - server
 fi
 if [[ $(should_install rpmfusion-free-release) == "True" ]]; then
     sudo dnf -y install \
