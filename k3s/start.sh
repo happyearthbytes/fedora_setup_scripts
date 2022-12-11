@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 sudo systemctl start k3s
+sleep 1
+kubectl config view --raw > ~/.kube/config
+chmod 600 ~/.kube/config
 
 # sleep 5
 # kubectl -n kube-system create serviceaccount tiller

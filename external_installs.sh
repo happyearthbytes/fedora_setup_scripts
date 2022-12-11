@@ -50,7 +50,8 @@ if [[ $(should_install_command k3s) == "True" ]]; then
     cp k3s/config.yaml /etc/rancher/k3s/
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" INSTALL_K3S_SKIP_ENABLE=true sh -s - server
 fi
-# if [[ $(should_install_command helm) == "True" ]]; then
+if [[ $(should_install_command helm) == "True" ]]; then
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 #     # curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash -s -
 #     # u+x install-helm.sh
 #     # https://gist.github.com/icebob/958b6aeb0703dc24f436ee8945f0794f
@@ -58,7 +59,10 @@ fi
 #     # https://doc.traefik.io/traefik/providers/kubernetes-crd/
 #     # https://doc.traefik.io/traefik/getting-started/quick-start-with-kubernetes/
 #     # https://blog.zachinachshon.com/traefik-ingress/
-# fi
+fi
+
+
+
 if [[ $(should_install_dnf rpmfusion-free-release) == "True" ]]; then
     sudo dnf -y install \
         https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
