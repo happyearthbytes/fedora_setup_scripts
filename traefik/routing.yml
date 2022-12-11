@@ -24,7 +24,7 @@ metadata:
 
 spec:
   entryPoints:
-    - websecure
+    - web
 
   routes:
     - match: Host(`whoami.themachine.pc`)

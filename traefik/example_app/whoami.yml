@@ -6,7 +6,6 @@ metadata:
   namespace: traefik
   labels:
     app: whoami
-
 spec:
   replicas: 1
   selector:
@@ -29,7 +28,6 @@ kind: Service
 metadata:
   name: whoami
   namespace: traefik
-
 spec:
   ports:
     - name: web

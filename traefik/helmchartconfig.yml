@@ -14,7 +14,19 @@ spec:
       - --entrypoints.websecure.http.tls.domains[0].sans=*.themachine.pc
       - --ping
       - --ping.entrypoint=web
-
+      - "traefik.http.services.whoami.loadbalancer.server.port=8080"
+    ports:
+      web:
+        nodePort: 32080
+        redirectTo: web
+        forwardedHeaders:
+          trustedIPs: []
+          insecure: false
+      websecure:
+        nodePort: 32443
+        forwardedHeaders:
+          trustedIPs: []
+          insecure: false
 # # additionalArguments:
 # # - "--providers.file.filename=/config/dynamic.toml"
 # # - "--ping"
@@ -48,11 +60,6 @@ spec:
 #     expose: false
 #     # The exposed port for this service
 #     exposedPort: 9000
-# #web:
-# #  forwardedHeaders:
-# #    trustedIPs: []
-# #    insecure: false
-
 
 # https://github.com/traefik/traefik-helm-chart/blob/master/traefik/values.yaml
 
