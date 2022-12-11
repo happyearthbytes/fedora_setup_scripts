@@ -27,7 +27,7 @@ spec:
     - websecure
 
   routes:
-    - match: Host(`localhost`)
+    - match: Host(`whoami.themachine.pc`)
       kind: Rule
       middlewares:
         - name: headers-default

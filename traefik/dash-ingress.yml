@@ -9,7 +9,7 @@ spec:
     - websecure
 
   routes:
-    - match: Host(`localhost`)
+    - match: Host(`traefik.themachine.pc`)
       kind: Rule
       middlewares:
         - name: traefik-dashboard-basicauth

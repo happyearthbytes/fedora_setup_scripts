@@ -6,8 +6,8 @@ helm repo add traefik https://traefik.github.io/charts
 helm repo update
 helm install traefik traefik/traefik --namespace=traefik
 
-PWHASH=$(htpasswd -n ${USER} | openssl base64)
-sed 's/\(  users: \).*/\1'${PWHASH}'/' secret.yml.in > secret.yml
+# PWHASH=$(htpasswd -n ${USER} | openssl base64)
+# sed 's/\(  users: \).*/\1'${PWHASH}'/' dash-secret.yml.in > dash-secret.yml
 
 kubectl apply -f dash-secret.yml
 kubectl apply -f dash-ingress.yml

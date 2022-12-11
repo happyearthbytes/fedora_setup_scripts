@@ -9,8 +9,12 @@ spec:
       enabled: false
     deployment:
       terminationGracePeriodSeconds: 5
+    additionalArguments:
+      - --entrypoints.websecure.http.tls.domains[0].main=themachine.pc
+      - --entrypoints.websecure.http.tls.domains[0].sans=*.themachine.pc
+      - --ping
+      - --ping.entrypoint=web
 
-      
 # # additionalArguments:
 # # - "--providers.file.filename=/config/dynamic.toml"
 # # - "--ping"
