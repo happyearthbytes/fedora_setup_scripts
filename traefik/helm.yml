@@ -5,13 +5,82 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
-    image:
-      name: traefik
-      tag: v2.8.5
-    forwardedHeaders:
-      enabled: true
-      trustedIPs:
-        - 10.0.0.0/8
-    ssl:
-      enabled: true
-      permanentRedirect: false
+    hub:
+      enabled: false
+    deployment:
+      terminationGracePeriodSeconds: 10
+
+      
+# # additionalArguments:
+# # - "--providers.file.filename=/config/dynamic.toml"
+# # - "--ping"
+# # - "--ping.entrypoint=web"
+# volumes: []
+# # - name: public-cert
+# #   mountPath: "/certs"
+# #   type: secret
+# # - name: '{{ printf "%s-configs" .Release.Name }}'
+# #   mountPath: "/config"
+# #   type: configMap
+# additionalVolumeMounts: []
+#   # For instance when using a logshipper for access logs
+#   # - name: traefik-logs
+#   #   mountPath: /var/log/traefik
+# # metrics:
+# #  openTelemetry:
+# # tracing: {}
+# #   # jaeger:
+#   # elastic:
+# additionalArguments: []
+# #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
+# #  - "--log.level=DEBUG"
+# ports:
+#   # The name of this one can't be changed as it is used for the readiness and
+#   # liveness probes, but you can adjust its config to your liking
+#   traefik:
+#     # You SHOULD NOT expose the traefik port on production deployments.
+#     # If you want to access it from outside of your cluster,
+#     # use `kubectl port-forward` or create a secure ingress
+#     expose: false
+#     # The exposed port for this service
+#     exposedPort: 9000
+# #web:
+# #  forwardedHeaders:
+# #    trustedIPs: []
+# #    insecure: false
+
+
+# https://github.com/traefik/traefik-helm-chart/blob/master/traefik/values.yaml
+
+# https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/
+# https://github.com/traefik/traefik-helm-chart/blob/master/EXAMPLES.md
+
+# spec:
+#   valuesContent: |-
+#     image:
+#       name: traefik
+#       tag: latest
+#     forwardedHeaders:
+#       enabled: true
+#       trustedIPs:
+#         - 10.0.0.0/8
+#     ssl:
+#       enabled: true
+#       permanentRedirect: false
+
+# spec:
+#   valuesContent: |-
+#     additionalArguments:
+#     - "--providers.file.filename=/config/traefik-config.toml"
+#     - "--entrypoints.mongodb=true"
+#     ports:
+#       mongodb:
+#         port: 27017
+#         protocol: TCP
+#     persistence:
+#       enabled: true
+#       name: data
+#       accessMode: ReadWriteOnce
+#       size: 128Mi
+#       storageClass: managed-nfs-storage
+#       path: /data
