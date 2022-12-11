@@ -8,7 +8,7 @@ spec:
     hub:
       enabled: false
     deployment:
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 5
 
       
 # # additionalArguments:
