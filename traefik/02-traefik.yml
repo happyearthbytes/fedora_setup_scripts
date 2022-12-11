@@ -2,7 +2,6 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: traefik-deployment
-  namespace: proxy
   labels:
     app: traefik
 
@@ -19,7 +18,7 @@ spec:
       serviceAccountName: traefik-account
       containers:
         - name: traefik
-          image: traefik:v2.9
+          image: traefik
           args:
             - --api.insecure
             - --providers.kubernetesingress
