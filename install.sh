@@ -4,6 +4,12 @@ external=./external_installs.sh
 extra_packages=extra_packages.txt
 extra_external=./extra_external_installs.sh
 
+nvidia_packages=nvidia_packages.txt
+
+
 sudo dnf install -y $(cat $packages | tr '\n' ' ')
 ${external}
 sudo dnf install -y $(cat $extra_packages | tr '\n' ' ')
+
+sudo dnf install -y $(cat $nvidia_packages | tr '\n' ' ')
+
