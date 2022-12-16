@@ -14,4 +14,4 @@ kubectl apply -f dash-ingress.yml
 kubectl apply -f routing.yml
 
 # TRAEFIK_IP=$(kubectl get svc traefik-web-service -o custom-columns=EXTERNAL_IP:.status.loadBalancer.ingress[0].ip)
-# echo "${TRAEFIK_IP} traefik.themachine.pc traefik > /etc/hosts"
+# echo "${TRAEFIK_IP} traefik.themachine.pc traefik >> /etc/hosts"
