@@ -27,6 +27,14 @@ sudo systemctl enable nvidia-persistenced
 mkdir -p ~/repos
 cd ~/repos
 git clone https://github.com/NVIDIA/cuda-samples.git
+make -C cuda-samples/Samples/1_Utilities/deviceQuery
+make -C cuda-samples/Samples/1_Utilities/bandwidthTest
+
+cuda-samples/Samples/1_Utilities/deviceQuery/deviceQuery
+cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest
+
+sudo dnf install -y freeglut-devel libX11-devel libXi-devel libXmu-devel make mesa-libGLU-devel freeimage-devel
+
 
 # #echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
 
