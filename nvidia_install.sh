@@ -36,43 +36,17 @@ cuda-samples/Samples/1_Utilities/bandwidthTest/bandwidthTest
 sudo dnf install -y freeglut-devel libX11-devel libXi-devel libXmu-devel make mesa-libGLU-devel freeimage-devel
 
 
-# #echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+# https://github.com/NVIDIA/k8s-device-plugin#quick-start
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
-# blacklist nouveau
-# options nouveau modeset=0
-
-# sudo nano /etc/default/grub
-# GRUB_CMDLINE_LINUX="......... rd.driver.blacklist=nouveau"
-
-# Append ‘rd.driver.blacklist=nouveau’ (and ‘nvidia-drm.modeset=1’) to end of ‘GRUB_CMDLINE_LINUX=”…”‘.
-
-
-# sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-
-# sudo dnf remove xorg-x11-drv-nouveau
-
-# sudo dracut --force /boot/initramfs-$(uname -r).img $(uname -r)
-# # -or- ?
-# # dnf install --skip-broken $(for i in $(dnf repoquery --installed kernel\* --qf '%{name}'); do echo $i-$(dnf --quiet --disablerepo=* --enablerepo=inttf repoquery --queryformat '%{version}-%{release}' kernel |sort -V |tail -1); done)
-
-
-# mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img
-# dracut /boot/initramfs-$(uname -r).img $(uname -r)
-
-
-
-
-# systemctl set-default multi-user.target
-
-# sudo reboot
-
-# # sudo bash NVIDIA-Linux-x86_64-470.74.run
-# # 4. Select Yes to install Nvidia's 32-bit compatibility libraries:
-# # 5. Select Yes to allow automatic Xorg backup:
-
-# systemctl set-default graphical.target
-
-
-# dnf install vdpauinfo libva-vdpau-driver libva-utils
-
+distribution=$(. /etc/os-release;echo centos8) \
+   && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.repo | sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+sudo dnf clean expire-cache \
+    && sudo dnf install -y nvidia-container-toolkit
+distribution=$(. /etc/os-release;echo centos8) \
+    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+cat  /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+podman run --rm --security-opt=label=disable \
+     --hooks-dir=/usr/share/containers/oci/hooks.d/ \
+     nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 
