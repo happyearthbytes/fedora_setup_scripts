@@ -46,6 +46,16 @@ sudo dnf clean expire-cache \
 distribution=$(. /etc/os-release;echo centos8) \
     && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
 cat  /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+
+sudo dnf install -y nvidia-container-runtime
+
+sudo cp k3s/config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
+
+
+
+sudo dracut --regenerate-all --force
+sudo reboot
+
 podman run --rm --security-opt=label=disable \
      --hooks-dir=/usr/share/containers/oci/hooks.d/ \
      nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
