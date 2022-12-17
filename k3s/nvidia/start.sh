@@ -20,8 +20,9 @@ helm upgrade -i nvdp nvdp/nvidia-device-plugin \
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.14/cluster/addons/device-plugins/nvidia-gpu/daemonset.yaml
 
+# https://github.com/NVIDIA/k8s-device-plugin#quick-start
 # /etc/containerd/config.toml
-
+# /var/lib/rancher/k3s/agent/etc/containerd/config.toml
 # version = 2
 # [plugins]
 #   [plugins."io.containerd.grpc.v1.cri"]
