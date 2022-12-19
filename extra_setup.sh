@@ -17,7 +17,7 @@ net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
-sudo sysctl --system
+sudo sysctl --system > /dev/null
 
 # overwrite config.toml
 # sudo mkdir -p /etc/containerd \

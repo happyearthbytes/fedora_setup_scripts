@@ -1,4 +1,7 @@
 #!/bin/sh
+
+kubectl delete all --all --all-namespaces
+
 set -x
 [ $(id -u) -eq 0 ] || exec sudo $0 $@
 

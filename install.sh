@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 packages=packages.txt
 external=./external_installs.sh
-extra_packages=extra_packages.txt
-extra_external=./extra_external_installs.sh
 
-nvidia_packages=nvidia_install.sh
+print_install() {
+    echo "# ==============================================================================="
+    echo "# Installing: $1"
+    echo "# ==============================================================================="
+}
 
-
+print_install "standard packages"
 sudo dnf install -y $(cat $packages | tr '\n' ' ')
+print_install "external packages"
 ${external}
-sudo dnf install -y $(cat $extra_packages | tr '\n' ' ')
-
+print_install "extra setup"
 extra_setup=./extra_setup.sh
 ${extra_setup}
 
-nvidia_packages=./nvidia_install.sh
-# ${nvidia_install.sh}
-
-
+print_install "k3s"
 cd k3s
 ./start.sh
 
+print_install "k3s nvidia"
 cd nvidia
 ./start.sh

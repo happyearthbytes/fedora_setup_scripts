@@ -6,3 +6,5 @@ openrgb
 i2c-tools
 openssl
 containerd
+kernel-devel
+kernel-headers

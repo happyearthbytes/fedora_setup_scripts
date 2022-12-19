@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 sleep 1
+# Set defaults
+containerd config default | sudo tee /var/lib/rancher/k3s/agent/etc/containerd/config.toml 2>&1 > /dev/null
+containerd config default | sudo tee /etc/containerd/config.toml 2>&1 > /dev/null
+# Copy the template
 sudo cp config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
 sudo cp config.toml.tmpl /etc/containerd/
 
