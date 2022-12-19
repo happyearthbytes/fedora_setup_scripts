@@ -2,8 +2,9 @@
 
 timedatectl set-local-rtc 1
 
-sudo modprobe overlay \
-    && sudo modprobe br_netfilter
+sudo modprobe overlay
+sudo modprobe br_netfilter
+sudo modprobe ipmi_devintf
 
 cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
 overlay
@@ -18,6 +19,9 @@ EOF
 
 sudo sysctl --system
 
+# overwrite config.toml
+# sudo mkdir -p /etc/containerd \
+#     && sudo containerd config default | sudo tee /etc/containerd/config.toml
 
 # To make use of the NVIDIA Container Runtime, additional configuration is required. The following options should be added to configure nvidia as a runtime and use systemd as the cgroup driver. A patch is provided below:
 
@@ -46,5 +50,5 @@ sudo sysctl --system
 # sudo systemctl restart containerd
 
 
-sudo systemctl start containerd
-sudo systemctl enable containerd
+# sudo systemctl start containerd
+# sudo systemctl enable containerd

@@ -47,9 +47,9 @@ fi
 if [[ $(should_install_command k3s) == "True" ]]; then
     sudo mkdir -p /etc/rancher/k3s/
     sudo chmod -R 777 /etc/rancher
-    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" INSTALL_K3S_SKIP_ENABLE=true sh -s - server
-    sudo swapoff -a
     cp k3s/config.yaml /etc/rancher/k3s/
+    sudo swapoff -a
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true sh -s - server
 fi
 if [[ $(should_install_command helm) == "True" ]]; then
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

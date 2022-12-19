@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+sleep 1
 sudo cp config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
 sudo cp config.toml.tmpl /etc/containerd/
 
 
 sudo systemctl start k3s
+sudo systemctl enable k3s
 sleep 1
 kubectl config view --raw > ~/.kube/config
 chmod 600 ~/.kube/config
