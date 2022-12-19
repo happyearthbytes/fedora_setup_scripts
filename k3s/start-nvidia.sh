@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-kubectl apply -f nvidia-namespace.yaml
+kubectl apply -f k3s/nvidia-namespace.yaml
 
 
 kubectl create cm -n nvidia-device-plugin nvidia-plugin-configs \
-    --from-file=config=nvidia-config.yaml
+    --from-file=config=k3s/nvidia-config.yaml
 
-# TODO : kubectl apply -f helm.yaml
-kubectl apply -f helm.yaml
-
+kubectl apply -f k3s/nvidia-helm.yaml
 
 label_filter="owner=joe"
 node_name=$(kubectl get nodes -l ${label_filter} --no-headers=true -o custom-columns=NAME:.metadata.name)
