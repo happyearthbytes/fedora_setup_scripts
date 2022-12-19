@@ -2,7 +2,7 @@
 dnf_command() {
     local command=${1}
     local package_name=${2}
-    dnf ${1} ${2} > /dev/null 2>&1
+    dnf -y ${1} ${2} > /dev/null 2>&1
     rc=$?
     if [[ $rc == 0 ]]; then echo "True"; else echo "False"; fi
 }
@@ -47,9 +47,9 @@ fi
 if [[ $(should_install_command k3s) == "True" ]]; then
     sudo mkdir -p /etc/rancher/k3s/
     sudo chmod -R 777 /etc/rancher
-    cp k3s/config.yaml /etc/rancher/k3s/
-    sudo swapoff -a
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" INSTALL_K3S_SKIP_ENABLE=true sh -s - server
+    sudo swapoff -a
+    cp k3s/config.yaml /etc/rancher/k3s/
 fi
 if [[ $(should_install_command helm) == "True" ]]; then
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
