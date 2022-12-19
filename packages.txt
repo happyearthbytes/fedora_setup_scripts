@@ -5,3 +5,4 @@ steam
 openrgb
 i2c-tools
 openssl
+containerd

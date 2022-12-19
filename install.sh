@@ -11,4 +11,15 @@ sudo dnf install -y $(cat $packages | tr '\n' ' ')
 ${external}
 sudo dnf install -y $(cat $extra_packages | tr '\n' ' ')
 
+extra_setup=./extra_setup.sh
+${extra_setup}
+
+nvidia_packages=./nvidia_install.sh
 # ${nvidia_install.sh}
+
+
+cd k3s
+./start.sh
+
+cd nvidia
+./start.sh

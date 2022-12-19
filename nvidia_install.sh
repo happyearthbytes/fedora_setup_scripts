@@ -49,7 +49,6 @@ cat  /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
 
 sudo dnf install -y nvidia-container-runtime
 
-sudo cp k3s/config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
 
 
 
