@@ -15,7 +15,3 @@ ${external}
 print_install "extra setup"
 extra_setup=./extra_setup.sh
 ${extra_setup}
-
-print_install "k3s nvidia"
-cd k3s/nvidia
-./start.sh

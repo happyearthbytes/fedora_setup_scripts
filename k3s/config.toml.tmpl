@@ -21,29 +21,29 @@
   conf_dir = "{{ .NodeConfig.AgentConfig.CNIConfDir }}"
 {{end}}
 
-[plugins.cri.containerd.runtimes.runc]
-  # ---- changed from 'io.containerd.runc.v2' for GPU support
-  runtime_type = "io.containerd.runtime.v1.linux"
+#[plugins.cri.containerd.runtimes.runc]
+#  # ---- changed from 'io.containerd.runc.v2' for GPU support
+#  runtime_type = "io.containerd.runtime.v1.linux"
 
 # ---- added for GPU support
-[plugins.linux]
-    # shim binary name/path
-    shim = "containerd-shim"
-    # runtime binary name/path
-    runtime = "nvidia-container-runtime"
-    # do not use a shim when starting containers, saves on memory but
-    # live restore is not supported
-    no_shim = false 
-    # display shim logs in the containerd daemon's log output
-    shim_debug = true
-    # do not put the shim in its own mount namespace
-    # (this only need to be set on kernel < 3.18)
-    shim_no_newns = true
+#[plugins.linux]
+#    # shim binary name/path
+#    shim = "containerd-shim"
+#    # runtime binary name/path
+#    runtime = "nvidia-container-runtime"
+#    # do not use a shim when starting containers, saves on memory but
+#    # live restore is not supported
+#    no_shim = false 
+#    # display shim logs in the containerd daemon's log output
+#    shim_debug = true
+#    # do not put the shim in its own mount namespace
+#    # (this only need to be set on kernel < 3.18)
+#    shim_no_newns = true
 
 # ---- Joe added for GPU support!
-[plugins."io.containerd.runtime.v1.linux"]
-    shim = "containerd-shim"
-    runtime = "nvidia-container-runtime"
+# [plugins."io.containerd.runtime.v1.linux"]
+#    shim = "containerd-shim"
+#    runtime = "nvidia-container-runtime"
 
 {{ if .PrivateRegistryConfig }}
 {{ if .PrivateRegistryConfig.Mirrors }}

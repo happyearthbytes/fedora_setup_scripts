@@ -148,20 +148,31 @@ if [[ $(should_install_command k3s) == "True" ]]; then
     sudo swapoff -a
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_SKIP_START=true sh -s - server
     # INSTALL_K3S_VERSION="v1.23.7+k3s1" sh
+fi
+if [[ $(service_running k3s) == "False" ]]; then
     # Set defaults
     containerd config default | sudo tee /var/lib/rancher/k3s/agent/etc/containerd/config.toml 2>&1 > /dev/null
     containerd config default | sudo tee /etc/containerd/config.toml 2>&1 > /dev/null
     # Copy the template
     sudo cp k3s/config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
     sudo cp k3s/config.toml.tmpl /etc/containerd/
-fi
-if [[ $(service_running k3s) == "False" ]]; then
+    exit
     sudo systemctl start k3s
     sudo systemctl enable k3s
     sleep 1
     kubectl config view --raw > ~/.kube/config
     chmod 600 ~/.kube/config
 
+    kubectl apply -f k3s/nvidia-namespace.yaml
+
+    kubectl create cm -n nvidia-device-plugin nvidia-plugin-configs \
+        --from-file=config=k3s/nvidia-config.yaml
+
+    kubectl apply -f k3s/nvidia-helm.yaml
+
+    label_filter="owner=joe"
+    node_name=$(kubectl get nodes -l ${label_filter} --no-headers=true -o custom-columns=NAME:.metadata.name)
+    kubectl label node --overwrite ${node_name} nvidia.com/device-plugin.config=nvidia-plugin-configs
 
 # sleep 5
 # kubectl -n kube-system create serviceaccount tiller
@@ -175,18 +186,53 @@ if [[ $(service_running k3s) == "False" ]]; then
 #    --private-registry value                   (agent/runtime) Private registry configuration file (default: "/etc/rancher/k3s/registries.yaml")
 
 
+
+# https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#step-0-pre-requisites
+
+# 2022/12/19 07:04:53 Detected non-NVML platform: could not load NVML: libnvidia-ml.so.1: cannot open shared object file: No such file or directory
+# 2022/12/19 07:04:53 Detected non-Tegra platform: /sys/devices/soc0/family file not found
+# 2022/12/19 07:04:53 Incompatible platform detected
+# 2022/12/19 07:04:53 If this is a GPU node, did you configure the NVIDIA Container Toolkit?
+# 2022/12/19 07:04:53 You can check the prerequisites at: https://github.com/NVIDIA/k8s-device-plugin#prerequisites
+# 2022/12/19 07:04:53 You can learn how to set the runtime at: https://github.com/NVIDIA/k8s-device-plugin#quick-start
+# 2022/12/19 07:04:53 If this is not a GPU node, you should set up a toleration or nodeSelector to only deploy this plugin on GPU nodes
+# 2022/12/19 07:04:53 Error: error starting plugins: error getting plugins: unable to load resource managers to manage plugin devices: platform detection failed
+# helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+# helm repo update
+# plugin_version=$(helm search repo nvdp --devel | awk '{print $2}' | tail -1)
+# helm upgrade -i nvdp nvdp/nvidia-device-plugin \
+#   --namespace nvidia-device-plugin \
+#   --create-namespace \
+#   --version ${plugin_version} \
+#   --set config.default=nvidia-plugin-configs \
+#   --set config.name=nvidia-plugin-configs
+
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.14/cluster/addons/device-plugins/nvidia-gpu/daemonset.yaml
+
+
+# https://github.com/NVIDIA/k8s-device-plugin#quick-start
+# /etc/containerd/config.toml
+# /var/lib/rancher/k3s/agent/etc/containerd/config.toml
+# version = 2
+# [plugins]
+#   [plugins."io.containerd.grpc.v1.cri"]
+#     [plugins."io.containerd.grpc.v1.cri".containerd]
+#       default_runtime_name = "nvidia"
+
+#       [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+#         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+#           privileged_without_host_devices = false
+#           runtime_engine = ""
+#           runtime_root = ""
+#           runtime_type = "io.containerd.runc.v2"
+#           [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+#             BinaryName = "/usr/bin/nvidia-container-runtime"
+
+
+# kubectl create -f test.yaml
+
+
+
 fi
 
-
-kubectl apply -f k3s/nvidia-namespace.yaml
-
-
-kubectl create cm -n nvidia-device-plugin nvidia-plugin-configs \
-    --from-file=config=k3s/nvidia-config.yaml
-
-kubectl apply -f k3s/nvidia-helm.yaml
-
-label_filter="owner=joe"
-node_name=$(kubectl get nodes -l ${label_filter} --no-headers=true -o custom-columns=NAME:.metadata.name)
-kubectl label node --overwrite ${node_name} nvidia.com/device-plugin.config=nvidia-plugin-configs
 
