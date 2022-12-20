@@ -119,7 +119,7 @@ if [[ $(should_install_dnf nvidia-container-toolkit) == "True" ]]; then
     sudo dnf install -y nvidia-container-runtime nvidia-modprobe
 
     # https://dischord.org/2022/06/14/rke2-and-nvidia-gpus-with-the-grid-operator/
-
+# https://dischord.org/2022/05/16/k3s-rke2-and-gpu-pci-passthrough/
 
 # grep "nvidia-container-runtime" /var/lib/rancher/rke2/agent/etc/containerd/config.toml &>/dev/null && info "GPU containerd changes already applied" && exit 0
 # awk '1;/plugins.cri.containerd]/{print "  default_runtime_name = \"nvidia-container-runtime\""}' /var/lib/rancher/rke2/agent/etc/containerd/config.toml > /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl
@@ -170,7 +170,7 @@ if [[ $(service_running k3s) == "False" ]]; then
     kubectl create cm -n nvidia-device-plugin nvidia-plugin-configs \
         --from-file=config=k3s/nvidia-config.yaml
 
-    kubectl apply -f k3s/nvidia-helm.yaml
+    kubectl apply -f k3s/nvidia-device-plugin.yml
 
     label_filter="owner=joe"
     node_name=$(kubectl get nodes -l ${label_filter} --no-headers=true -o custom-columns=NAME:.metadata.name)
