@@ -118,6 +118,8 @@ if [[ $(should_install_dnf nvidia-container-toolkit) == "True" ]]; then
 
     sudo dnf install -y nvidia-container-runtime nvidia-modprobe
 
+    # https://dischord.org/2022/06/14/rke2-and-nvidia-gpus-with-the-grid-operator/
+
 
 # grep "nvidia-container-runtime" /var/lib/rancher/rke2/agent/etc/containerd/config.toml &>/dev/null && info "GPU containerd changes already applied" && exit 0
 # awk '1;/plugins.cri.containerd]/{print "  default_runtime_name = \"nvidia-container-runtime\""}' /var/lib/rancher/rke2/agent/etc/containerd/config.toml > /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl
@@ -156,7 +158,7 @@ if [[ $(service_running k3s) == "False" ]]; then
     # Copy the template
     sudo cp k3s/config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
     sudo cp k3s/config.toml.tmpl /etc/containerd/
-    exit
+
     sudo systemctl start k3s
     sudo systemctl enable k3s
     sleep 1

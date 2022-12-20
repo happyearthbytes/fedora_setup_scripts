@@ -2,10 +2,10 @@
 # NAMESPACE=""
 NAMESPACE="-A"
 # NAMESPACE="-n proxy"
-# COMMAND="kubectl get pods,deployments,services,ingress,daemonset -o wide ${NAMESPACE} | expand | cut -c-\${COLUMNS} | sed '/^$/d'"
-# watch -t -n1 --color -d ${COMMAND}
+COMMAND="kubectl get pods,deployments,services,ingress,daemonset -o wide ${NAMESPACE} | expand | cut -c-\${COLUMNS} | sed '/^$/d'"
+watch -t -n1 --color -d ${COMMAND}
 
-COMMAND="kubectl get pods,deployments,services,ingress,daemonset ${NAMESPACE} -o go-template-file=watch.go.tpl"
+COMMAND="kubectl get pods,deployments,services,ingress,daemonset ${NAMESPACE} -o go-template-file=watch.go.tpl  | expand | cut -c-\${COLUMNS} | sed '/^$/d'"
 watch -t -n1 --color -d ${COMMAND}
 
 
