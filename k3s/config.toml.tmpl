@@ -6,11 +6,13 @@
   stream_server_port = "10010"
   enable_selinux = false
 
-{{- if .IsRunningInUserNS }}
+{{/*
+- if .IsRunningInUserNS }}
   disable_cgroup = true
   disable_apparmor = true
   restrict_oom_score_adj = true
-{{end}}
+{{end
+*/}}
 
 {{- if .NodeConfig.AgentConfig.PauseImage }}
   sandbox_image = "{{ .NodeConfig.AgentConfig.PauseImage }}"
@@ -31,9 +33,14 @@
   runtime_type = "io.containerd.runc.v2"
 
 [plugins.cri.containerd.runtimes."nvidia"]
+  privileged_without_host_devices = false
   runtime_type = "io.containerd.runc.v2"
 [plugins.cri.containerd.runtimes."nvidia".options]
   BinaryName = "/usr/bin/nvidia-container-runtime"
+  SystemdCgroup = true
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  SystemdCgroup = true
 
 #[plugins.cri.containerd.runtimes.runc]
 #  # ---- changed from 'io.containerd.runc.v2' for GPU support

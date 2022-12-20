@@ -9,3 +9,4 @@ containerd
 kernel-devel
 kernel-headers
 kernel-tools
+etcd

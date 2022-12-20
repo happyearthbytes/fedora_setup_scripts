@@ -19,6 +19,27 @@ EOF
 
 sudo sysctl --system > /dev/null
 
+# systemctl list-unit-files
+# systemctl list-units -a
+
+sudo systemctl start etcd
+sudo systemctl enable etcd
+sudo systemctl start systemd-networkd
+sudo systemctl enable systemd-networkd
+sudo systemctl start sshd
+sudo systemctl enable sshd
+sudo systemctl start systemd-boot-check-no-failures
+sudo systemctl enable systemd-boot-check-no-failures
+sudo systemctl start NetworkManager
+sudo systemctl enable NetworkManager
+
+
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+# grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+# https://rootlesscontaine.rs/getting-started/common/cgroup2/
+# To boot the host with cgroup v2, add the following string to the GRUB_CMDLINE_LINUX line in /etc/default/grub and then run sudo update-grub.
+# systemd.unified_cgroup_hierarchy=1
+
 # overwrite config.toml
 # sudo mkdir -p /etc/containerd \
 #     && sudo containerd config default | sudo tee /etc/containerd/config.toml
