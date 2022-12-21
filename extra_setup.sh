@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+add_line() {
+  local line=$1
+  local file=$2
+  [ -f $file ] || touch $file
+  grep -qxF "$line" $file || echo "$line" | sudo tee -a $file
+}
 
 timedatectl set-local-rtc 1
 
@@ -18,6 +24,18 @@ net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
 sudo sysctl --system > /dev/null
+
+podman play kube k3s/container-registry.yml
+
+add_line "[[registry.mirror]]" /etc/containers/registries.conf
+add_line 'location="themachine.home"' /etc/containers/registries.conf
+add_line 'insecure = true' /etc/containers/registries.conf
+sudo systemctl restart podman
+
+# TODO
+# update unqualified-search-registries = ["registry.fedoraproject.org", "registry.access.redhat.com", "docker.io", "quay.io"]
+# update unqualified-search-registries = ["themachine.home:5000", "registry.fedoraproject.org", "registry.access.redhat.com", "docker.io", "quay.io"]
+
 
 # systemctl list-unit-files
 # systemctl list-units -a

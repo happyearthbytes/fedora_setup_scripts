@@ -42,9 +42,7 @@ should_install_dnf() {
 add_line() {
   local line=$1
   local file=$2
-  # Create the file if it doesn't exist
   [ -f $file ] || touch $file
-  # add the line to the end of the file if it does not already exist
   grep -qxF "$line" $file || echo "$line" >> $file
 }
 add_bashrc() {
