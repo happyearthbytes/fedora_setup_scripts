@@ -1,0 +1,43 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: container-registry
+  namespace: kube-system
+spec:
+  chart: docker-registry
+  repo: https://helm.twun.io
+  valuesContent: |
+    service:
+      name: registry
+      type: LoadBalancer
+      port: 5000
+    ingress:
+      enabled: true
+      hosts:
+        - registry
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    persistence:
+      enabled: true
+      size: 20Gi
+    # proxy:
+    #   enabled: false
+    #   remoteurl: https://registry-1.docker.io
+    # metrics:
+    #   enabled: true
+    #   port: 5001
+    #   # Create a prometheus-operator servicemonitor
+    #   serviceMonitor:
+    #     enabled: true
+    #     labels: {}
+    #   # prometheus-operator PrometheusRule defining alerting rules for a Prometheus instance
+    #   prometheusRule:
+    #     enabled: false
+    #     labels: {}
+    #     rules: {}
+  wait: true

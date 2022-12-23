@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: registry-db-secrets
+  namespace: kube-system
+type: Opaque
+data:
+  root-password: NTgxODgx
+  user-password: OTc3YmI4
+
+# echo -n "example_root_password" | sha512sum | base64 | b2sum | sha1sum | base64 | head -c8;echo
+# echo -n "example_user_password" | sha512sum | base64 | b2sum | sha1sum | base64 | head -c8;echo

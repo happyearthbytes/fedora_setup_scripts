@@ -25,21 +25,33 @@ EOF
 
 sudo sysctl --system > /dev/null
 
-sudo chown ${USER} /media/ContainerStorage/storage/overlay/l
-sudo chown ${USER} /run/user/$(id -u)/overlay
-podman kube play  -q k3s/container-registry.yml || true
 
 add_line "[[registry]]" /etc/containers/registries.conf
 add_line 'location="registry"' /etc/containers/registries.conf
 add_line 'insecure=true' /etc/containers/registries.conf
-sudo systemctl restart podman
 
 # TODO
 # /etc/hosts
-# 127.0.0.1 registry.themachine.pc registry
 # 127.0.0.1 whoami.themachine.pc whoami
 # 127.0.0.1 traefik.themachine.pc traefik
 add_line '127.0.0.1 registry.themachine.pc registry' /etc/hosts
+# add_line '192.168.1.192 registry.themachine.k3s registry' /etc/hosts
+
+
+# sudo chown ${USER} /media/ContainerStorage/storage/overlay/l
+# sudo chown ${USER} /run/user/$(id -u)/overlay
+# podman kube play  -q k3s/container-registry.yml || true
+sudo systemctl restart podman
+
+# kubectl apply -f k3s/registry-ns.yml
+# kubectl apply -f k3s/registry-sec.yml
+# kubectl apply -f k3s/registry-pvc.yml
+# kubectl apply -f k3s/registry-svc.yml
+# kubectl apply -f k3s/registry-db.yml
+# kubectl apply -f k3s/registry-helmcfg.yml
+# helm repo add twuni https://helm.twun.io
+kubectl apply -f k3s/registry-helm.yml
+# kubectl delete --all --namespace registry
 
 # TODO
 # /etc/nginx/nginx.conf

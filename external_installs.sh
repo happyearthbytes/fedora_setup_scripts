@@ -157,6 +157,8 @@ if [[ $(service_running k3s) == "False" ]]; then
     sudo cp k3s/config.toml.tmpl /var/lib/rancher/k3s/agent/etc/containerd/
     sudo cp k3s/config.toml.tmpl /etc/containerd/
 
+    sudo cp k3s/registries.yaml /etc/rancher/k3s/
+
     sudo systemctl start k3s
     sudo systemctl enable k3s
     sleep 1

@@ -1,0 +1,12 @@
+mirrors:
+  docker.io:
+    endpoint:
+      - "registry:5000"
+mirrors:
+  registry:
+    endpoint:
+      - "registry:5000"
+mirrors:
+  "registry:5000":
+    endpoint:
+      - "registry:5000"

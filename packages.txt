@@ -9,4 +9,3 @@ containerd
 kernel-devel
 kernel-headers
 kernel-tools
-nginx
