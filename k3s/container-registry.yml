@@ -1,20 +1,33 @@
 apiVersion: v1
 kind: Deployment
 metadata:
-  name: container-registry
+  name: registry
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: container-registry
+      app: registry
   template:
     metadata:
       labels:
-        app: container-registry
+        app: registry
     spec:
       containers:
-      - name: container-registry
+      - name: reg
         image: registry:2
         ports:
         - containerPort: 5000
           protocol: TCP
+          hostPort: 5000
+          name: registry
+        - containerPort: 80
+          protocol: TCP
+          hostPort: 5080
+          name: web
+        volumeMounts:
+        - name: registry-storage
+          mountPath: /var/lib/registry:Z
+      volumes:
+      - name: registry-storage
+        hostPath:
+          path: /media/ContainerStorage/registry

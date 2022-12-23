@@ -25,12 +25,25 @@ EOF
 
 sudo sysctl --system > /dev/null
 
-podman play kube k3s/container-registry.yml
+sudo chown ${USER} /media/ContainerStorage/storage/overlay/l
+sudo chown ${USER} /run/user/$(id -u)/overlay
+podman kube play  -q k3s/container-registry.yml || true
 
-add_line "[[registry.mirror]]" /etc/containers/registries.conf
-add_line 'location="themachine.home"' /etc/containers/registries.conf
-add_line 'insecure = true' /etc/containers/registries.conf
+add_line "[[registry]]" /etc/containers/registries.conf
+add_line 'location="registry"' /etc/containers/registries.conf
+add_line 'insecure=true' /etc/containers/registries.conf
 sudo systemctl restart podman
+
+# TODO
+# /etc/hosts
+# 127.0.0.1 registry.themachine.pc registry
+# 127.0.0.1 whoami.themachine.pc whoami
+# 127.0.0.1 traefik.themachine.pc traefik
+add_line '127.0.0.1 registry.themachine.pc registry' /etc/hosts
+
+# TODO
+# /etc/nginx/nginx.conf
+
 
 # TODO
 # update unqualified-search-registries = ["registry.fedoraproject.org", "registry.access.redhat.com", "docker.io", "quay.io"]
@@ -46,10 +59,12 @@ sudo systemctl start systemd-networkd
 sudo systemctl enable systemd-networkd
 sudo systemctl start sshd
 sudo systemctl enable sshd
-sudo systemctl start systemd-boot-check-no-failures
-sudo systemctl enable systemd-boot-check-no-failures
+# sudo systemctl start systemd-boot-check-no-failures
+# sudo systemctl enable systemd-boot-check-no-failures
 sudo systemctl start NetworkManager
 sudo systemctl enable NetworkManager
+sudo systemctl start nginx
+sudo systemctl enable nginx
 
 
 # grub2-mkconfig -o /boot/grub2/grub.cfg
