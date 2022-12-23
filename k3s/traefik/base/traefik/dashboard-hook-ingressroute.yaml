@@ -1,0 +1,25 @@
+---
+# Source: traefik/templates/dashboard-hook-ingressroute.yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: release-name-traefik-dashboard
+  namespace: default
+  annotations:
+    helm.sh/hook: "post-install,post-upgrade"
+    meta.helm.sh/release-name: release-name
+    meta.helm.sh/release-namespace: default
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: release-name-default
+    helm.sh/chart: traefik-20.8.0
+    app.kubernetes.io/managed-by: Helm
+spec:
+  entryPoints:
+  - traefik
+  routes:
+  - match: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    kind: Rule
+    services:
+    - name: api@internal
+      kind: TraefikService
