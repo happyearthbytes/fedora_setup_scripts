@@ -1,3 +1,5 @@
 obs-studio
-code
 kodi
+steam
+openrgb
+i2c-tools

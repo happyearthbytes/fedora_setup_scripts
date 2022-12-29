@@ -1,9 +1,6 @@
 vim
 google-chrome-stable
 git
-steam
-openrgb
-i2c-tools
 openssl
 containerd
 kernel-devel
